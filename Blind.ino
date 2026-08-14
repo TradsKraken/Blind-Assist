@@ -38,9 +38,7 @@
 #define TRIG_RIGHT        33
 #define ECHO_RIGHT        32
 #define DFPLAYER_BUSY_PIN  4   // LOW while a track is playing
-#define VIB_MOTOR_PIN     27
 #define BUZZER_PIN         5
-#define TACTILE_SW_PIN    15
 #define RX2_PIN           16
 #define TX2_PIN           17
 
@@ -83,7 +81,6 @@ Decision decideMessage(Zone front, Zone left, Zone right,
                        float dFront, float dLeft, float dRight,
                        bool fastFront, bool fastLeft, bool fastRight);
 void     runBuzzer(BuzzPat pattern);
-void     vibPulse();
 void     playTrack(int track, int priority);
 
 // ====================================================================
@@ -217,15 +214,6 @@ void runBuzzer(BuzzPat pattern) {
 }
 
 // ====================================================================
-// VIBRATION — only for P0 and P1 (immediate physical danger)
-// ====================================================================
-void vibPulse() {
-  digitalWrite(VIB_MOTOR_PIN, HIGH);
-  delay(150);
-  digitalWrite(VIB_MOTOR_PIN, LOW);
-}
-
-// ====================================================================
 // AUDIO PLAYBACK — respects priority, cooldown, and BUSY pin
 // ====================================================================
 void playTrack(int track, int priority) {
@@ -350,11 +338,8 @@ Decision decideMessage(Zone front, Zone left, Zone right,
 void setup() {
   Serial.begin(115200);
 
-  pinMode(VIB_MOTOR_PIN,     OUTPUT);
   pinMode(BUZZER_PIN,        OUTPUT);
   pinMode(DFPLAYER_BUSY_PIN, INPUT_PULLUP);
-  pinMode(TACTILE_SW_PIN,    INPUT_PULLUP);
-  digitalWrite(VIB_MOTOR_PIN, LOW);
   digitalWrite(BUZZER_PIN,    LOW);
 
   dfSerial.begin(9600, SERIAL_8N1, RX2_PIN, TX2_PIN);
@@ -425,26 +410,10 @@ void loop() {
                                dFront, dLeft, dRight,
                                fastFront, fastLeft, fastRight);
 
-    // Vibration motor for P0 and P1 only
-    if (d.priority <= 1) vibPulse();
-
     // Buzzer
     runBuzzer(d.buzz);
 
     // Audio
     playTrack(d.track, d.priority);
-  }
-
-  // ---- Tactile switch: replay last spoken track ----
-  if (digitalRead(TACTILE_SW_PIN) == LOW) {
-    delay(50); // debounce
-    if (digitalRead(TACTILE_SW_PIN) == LOW) {
-      Serial.println("Switch: replaying last track");
-      if (activeTrack > 0) {
-        player.play(activeTrack);
-        lastSpeakTime = millis();
-      }
-      while (digitalRead(TACTILE_SW_PIN) == LOW); // wait for release
-    }
   }
 }

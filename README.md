@@ -144,3 +144,11 @@ The system logic is contained entirely within the firmware file.
 4. Click Upload.
 
 Once powered on, the ESP32 will output real-time distance metrics, zone calculations, and rate-of-change flags directly to the Serial Monitor for debugging and calibration.
+
+---
+
+<p align="center">
+  <img src="assets/images/Fortek%20Electronics.png" alt="Fortek Electronics Logo" width="300">
+  <br>
+  <b>&copy; Fortek Electronics. All Rights Reserved.</b>
+</p>

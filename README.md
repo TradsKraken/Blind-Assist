@@ -1,10 +1,22 @@
-# Blind Assist Navigation Belt: Build Guide
+# Blind Assist Navigation Belt: Build Documentation
 
 ![Final Look](assets/images/final%20look%20of%20the%20device%20in%20the%20perfboard.jfif)
 
 This project is a wearable belt bag integrated with ultrasonic sensors designed to assist visually impaired individuals. It uses a spatially-aware navigation engine to provide real-time voice guidance and buzzer alerts to actively steer the user around obstacles.
 
 Follow this step-by-step guide to build and configure the device.
+
+---
+
+## The Development Process
+
+The creation of this device involved several iterations to solve complex navigation challenges:
+
+1. **Initial Prototyping (The 27-State Table):** The project began with a simple 3-zone system (Danger, Warning, Clear). However, simple proximity beepers proved insufficient for complex navigation (like approaching corners). To solve this, a 27-state truth table was mapped out to ensure the system always knew exactly what audio phrase to trigger based on every possible combination of the three sensors.
+2. **Solving Sensor Flicker (Hysteresis):** Early testing revealed a major UX issue: if a user stood exactly on the boundary of a zone, the sensor would flicker between states, causing the audio to spam them endlessly. This was solved by implementing **Hysteresis**, making the threshold to *enter* a danger zone tighter than the threshold to *exit* it.
+3. **The Predictive TTI Experiment:** An attempt was made to track the velocity of the user (Time-To-Impact) to predict collisions before they happened. However, the erratic nature of human walking speeds caused false positives. The complex physics math was ultimately scrapped in favor of a much more reliable **Rate-of-Change (Fast Approach)** check.
+4. **The Final 65-State Spatial Engine:** The final firmware expanded to 4 zones (adding a `CLOSE` zone for finer granularity), exploding the truth table to 65+ unique states. Spatial pattern recognition was also added by utilizing a ring buffer to detect Dead Ends, Corridors, and Corners.
+5. **Hardware Simplification:** Originally, the build included a tactile switch and a vibration motor. As the logic engine and the 5 distinct buzzer patterns (Emergency, SOS, Rapid, Double, Slow) became more refined, the extra hardware was deemed redundant and stripped out, leaving a perfectly streamlined system relying entirely on intelligent voice and buzzer alerts.
 
 ---
 

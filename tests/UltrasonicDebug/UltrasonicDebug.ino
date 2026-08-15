@@ -3,14 +3,14 @@
 
 // --- Pin Definitions ---
 // Ultrasonic Sensors
-#define TRIG_FRONT 26
-#define ECHO_FRONT 25
+#define TRIG_FRONT 25
+#define ECHO_FRONT 26
 
-#define TRIG_LEFT  13
-#define ECHO_LEFT  12
+#define TRIG_LEFT  12
+#define ECHO_LEFT  13
 
-#define TRIG_RIGHT 33
-#define ECHO_RIGHT 32
+#define TRIG_RIGHT 32
+#define ECHO_RIGHT 33
 
 // --- Constants ---
 #define MAX_DISTANCE 400 // Maximum distance in cm (13 feet is approx 396 cm)

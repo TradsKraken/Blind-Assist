@@ -31,12 +31,14 @@
 // ====================================================================
 // PIN DEFINITIONS
 // ====================================================================
-#define TRIG_FRONT        26
-#define ECHO_FRONT        25
-#define TRIG_LEFT         13
-#define ECHO_LEFT         12
-#define TRIG_RIGHT        33
-#define ECHO_RIGHT        32
+#define TRIG_FRONT        25
+#define ECHO_FRONT        26
+
+#define TRIG_LEFT         12
+#define ECHO_LEFT         13
+
+#define TRIG_RIGHT        32
+#define ECHO_RIGHT        33
 #define DFPLAYER_BUSY_PIN  4   // LOW while a track is playing
 #define BUZZER_PIN         5
 #define RX2_PIN           16
